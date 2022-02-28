@@ -29,9 +29,9 @@ module Ferryman
 
       def respond(response)
         if response.id
-          @response_redis.multi do
-            @response_redis.rpush(response.id, response.to_json)
-            @response_redis.expire(response.id, 60)
+          @response_redis.multi do |pipeline|
+            pipeline.rpush(response.id, response.to_json)
+            pipeline.expire(response.id, 60)
           end
         end
       end
